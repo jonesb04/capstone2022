@@ -8,9 +8,10 @@ class JobQueue:
 
     def add_job(self, url):
         job_id = self.get_job_id()
+        job_type = self.get_job_type()
         job = {'job_id': job_id,
                'url': url,
-               'job_type': get_job_type()}
+               'job_type': job_type}
         self.database.lpush('jobs_waiting_queue', json.dumps(job))
 
     def get_num_jobs(self):
@@ -26,7 +27,7 @@ class JobQueue:
     def get_job_type(self):
         job_type = 'dummy'
         return job_type
-        
+
     def get_last_timestamp_string(self, endpoint):
         key = f'{endpoint}_last_timestamp'
         if self.database.exists(key):
